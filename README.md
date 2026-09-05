@@ -3,8 +3,7 @@
 
 A digital agricultural market linkage and price discovery web platform tailored for Indian farmers, FPOs, and corporate wholesale buyers. Built with **100% pure HTML, CSS, and Vanilla JavaScript** with zero external runtime build dependencies.
 
-🔗 **GitHub Repository**: [https://github.com/SpanzZzy/SIH-Test](https://github.com/SpanzZzy/SIH-Test)
-
+🔗 **GitHub Repository**: https://kurhadenarayan44-a11y.github.io/SIH-Test/
 ---
 
 ## 🌾 Core Features & Architectural Highlights
