@@ -8,9 +8,10 @@
     "serve": "node server.js",
     "verify": "node scripts/verify_app.js",
     "generate-data": "node scripts/generate_mandi_data.js",
-    "generate-pdf": "node convert_csv_to_pdf.js"
+    "generate-sih-ppt": "node scripts/generate_sih_presentation.js"
   },
   "dependencies": {
+    "pdf-lib": "^1.17.1",
     "pdfkit": "^0.16.0"
   }
 }
