@@ -122,6 +122,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.text-muted {
+  color: var(--text-muted);
+}
+
+.theme-label {
+  display: inline;
+}
+
+.farmer-cockpit-wrap {
+  width: 100%;
+}
+
 /* ============================================================
    1. TOP ACCESSIBILITY & EMERGENCY HOTLINE BAR
    ============================================================ */

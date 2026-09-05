@@ -4,8 +4,11 @@
   "description": "Strengthening Market Linkages & Price Discovery for Farmers",
   "main": "convert_csv_to_pdf.js",
   "scripts": {
-    "generate-pdf": "node convert_csv_to_pdf.js",
-    "start": "npx -y serve . -p 8080"
+    "start": "node server.js",
+    "serve": "node server.js",
+    "verify": "node scripts/verify_app.js",
+    "generate-data": "node scripts/generate_mandi_data.js",
+    "generate-pdf": "node convert_csv_to_pdf.js"
   },
   "dependencies": {
     "pdfkit": "^0.16.0"
