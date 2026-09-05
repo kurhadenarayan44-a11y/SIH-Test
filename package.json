@@ -1,0 +1,13 @@
+{
+  "name": "kisan-mandi-setu",
+  "version": "2.0.0",
+  "description": "Strengthening Market Linkages & Price Discovery for Farmers",
+  "main": "convert_csv_to_pdf.js",
+  "scripts": {
+    "generate-pdf": "node convert_csv_to_pdf.js",
+    "start": "npx -y serve . -p 8080"
+  },
+  "dependencies": {
+    "pdfkit": "^0.16.0"
+  }
+}

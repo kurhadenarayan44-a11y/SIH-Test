@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kisan Mandi Setu | e-NAM Market Linkages & Price Discovery</title>
+  <meta name="description" content="National digital agricultural market linkage platform empowering Indian farmers with live mandi rates, road transport arbitrage calculator, 14-day AI price forecasting, and escrow-backed institutional contracts.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="day-mode">
+
+  <!-- 1. Top Accessibility & Emergency Header -->
+  <header class="top-accessibility-bar" role="banner">
+    <div class="top-bar-left">
+      <div class="gov-badge-text">
+        <span class="gov-emblem-icon">🇮🇳</span>
+        <span data-i18n="gov_badge">Government of India | Ministry of Agriculture & Farmers Welfare</span>
+      </div>
+      <a href="tel:1551" class="kisan-hotline-btn" title="Toll-Free 24x7 Kisan Call Centre Helpline" id="kisanHelplineBtn">
+        📞 <span data-i18n="kisan_hotline">1551 Kisan Helpline (24x7)</span>
+      </a>
+    </div>
+    <div class="top-bar-right">
+      <!-- Dynamic Font Resizer (A- / A / A+) -->
+      <div class="font-resizer-group" title="Scale Typography for Low Vision">
+        <span style="font-size: 0.78rem; font-weight: 800; margin-right: 4px;" data-i18n="font_size">Font Size</span>
+        <button class="font-btn" id="btnFontMinus" title="Decrease Font (14px)">A-</button>
+        <button class="font-btn font-btn-active" id="btnFontReset" title="Standard Font (16px)">A</button>
+        <button class="font-btn" id="btnFontPlus" title="Increase Font (19px)">A+</button>
+      </div>
+
+      <!-- Day / Night Contrast Mode Toggle -->
+      <button class="theme-toggle-btn" id="btnThemeToggle" title="Toggle Outdoor Sunlight vs Night Contrast">
+        ☀️ <span class="theme-label" data-i18n="day_mode">Emerald Day</span>
+      </button>
+
+      <!-- Multilingual Language Selector (All Major Indian Languages) -->
+      <div class="lang-selector-wrap">
+        <select id="globalLanguageSelect" onchange="window.setLanguage(this.value)" aria-label="Select Regional Language">
+          <option value="en">English (India)</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">മലയാളം (Malayalam)</option>
+          <option value="or">ଓଡ଼ିଆ (Odia)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Real-Time APMC Mandi Ticker Marquee (Market Depth) -->
+  <div class="mandi-ticker-bar" aria-label="Live Mandi Price Ticker">
+    <span class="ticker-badge-live">● LIVE APMC RATES</span>
+    <div class="ticker-marquee-track">
+      <span class="ticker-item">🧅 Lasalgaon Mandi (Nashik): Onion <strong class="ticker-rate">₹2,150/Qtl</strong> <span class="ticker-up">▲ +₹80</span></span>
+      <span class="ticker-item">🌾 Khanna Mandi (Punjab): Sharbati Wheat <strong class="ticker-rate">₹2,450/Qtl</strong> <span class="ticker-up">▲ +₹35</span></span>
+      <span class="ticker-item">🍅 Kolar APMC (Karnataka): Hybrid Tomato <strong class="ticker-rate">₹1,800/Qtl</strong> <span class="ticker-down">▼ -₹120</span></span>
+      <span class="ticker-item">🌱 Ujjain Chimanganj (MP): Yellow Soybean <strong class="ticker-rate">₹4,892/Qtl</strong> <span class="ticker-up">▲ +₹45</span></span>
+      <span class="ticker-item">☁️ Warangal Yard (Telangana): BT Cotton <strong class="ticker-rate">₹7,121/Qtl</strong> <span class="ticker-up">▲ +₹110</span></span>
+      <span class="ticker-item">🥔 Agra Mandi (UP): Jyoti Potato <strong class="ticker-rate">₹1,520/Qtl</strong> <span class="ticker-flat">= ₹0</span></span>
+      <span class="ticker-item">🌶️ Guntur Yard (AP): Teja Red Chilli <strong class="ticker-rate">₹14,200/Qtl</strong> <span class="ticker-up">▲ +₹300</span></span>
+      <span class="ticker-item">🌾 Pimpalgaon Mandi (MH): Tomato <strong class="ticker-rate">₹1,850/Qtl</strong> <span class="ticker-up">▲ +₹50</span></span>
+      <span class="ticker-item">🍌 Kochi Maradu (KL): Nendran Banana <strong class="ticker-rate">₹2,100/Qtl</strong> <span class="ticker-up">▲ +₹70</span></span>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav class="main-nav" role="navigation">
+    <a href="#overview" class="nav-brand">
+      <div class="brand-logo-icon">🌾</div>
+      <div>
+        <h1 class="brand-title">Kisan Mandi Setu</h1>
+        <div class="brand-subtitle" data-i18n="app_title">e-NAM Market Linkages & Price Discovery</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#overview" class="nav-link active" data-i18n="nav_home">Overview & Guide</a>
+      <a href="#mandiBhav" class="nav-link" data-i18n="nav_mandi">Live Mandi Bhav</a>
+      <a href="#farmerCockpitSection" class="nav-link" data-i18n="nav_cockpit">Farmer Cockpit</a>
+      <a href="#buyerPortalSection" class="nav-link" data-i18n="nav_buyer">Buyer Portal</a>
+      <a href="#roadArbitrage" class="nav-link" data-i18n="nav_pnl">Road Transport P&L</a>
+      <a href="#aiForecast" class="nav-link" data-i18n="nav_forecast">14-Day AI Forecast</a>
+      <a href="#trustRatings" class="nav-link" data-i18n="nav_ratings">Trust & Ratings</a>
+    </div>
+    <!-- Active Profile & Multi-Account Switcher Widget -->
+    <div class="user-profile-widget" id="currentProfileBadge">
+      <span class="profile-avatar-circle" id="profileLocationDisplay">🌾 Nashik, Maharashtra</span>
+      <div class="profile-info">
+        <span class="profile-name" id="profileNameDisplay">Ramesh Patil</span>
+        <span class="profile-role-sub" id="profileRoleDisplay">Farmer (Grape & Onion Grower)</span>
+      </div>
+      <button class="btn btn-sm btn-outline" onclick="window.openModal('accountCreationModal')" title="Register or Switch Account">
+        ⚙️ <span data-i18n="nav_profile">Switch</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Master App Container -->
+  <main class="app-container" id="overview">
+
+    <!-- Hero & Role Entryway Switcher -->
+    <section class="hero-role-section">
+      <div class="hero-header">
+        <h2 class="hero-tagline" data-i18n="tagline">Empowering Indian Farmers with Direct Market Access, Fair Price Discovery & Inter-Mandi Arbitrage</h2>
+        <p class="hero-subtext" data-i18n="role_switch_title">Choose Your Platform Entryway</p>
+      </div>
+
+      <!-- Landing Page Role Switcher Buttons -->
+      <div class="role-switcher-banner">
+        <button class="role-switch-btn active-role" id="btnRoleFarmer" onclick="window.setRole('farmer')">
+          <span style="font-size: 2.2rem;">👨‍🌾</span>
+          <div>
+            <div data-i18n="role_farmer_btn">Farmer Entryway (Sell & Pass)</div>
+            <small style="font-weight: 600; opacity: 0.9; font-size: 0.84rem;">Produce listing, Real-time bids, e-NAM Gate Pass</small>
+          </div>
+        </button>
+        <button class="role-switch-btn inactive-role" id="btnRoleBuyer" onclick="window.setRole('buyer')">
+          <span style="font-size: 2.2rem;">🏢</span>
+          <div>
+            <div data-i18n="role_buyer_btn">Buyer Entryway (Procure & Bid)</div>
+            <small style="font-weight: 600; opacity: 0.9; font-size: 0.84rem;">Wholesale verified lots, Escrow POs, Bidding desk</small>
+          </div>
+        </button>
+      </div>
+
+      <!-- 1-Click Profile Quick Selector -->
+      <div class="profile-quick-bar">
+        <span>👤 <strong data-i18n="current_profile">Active User Profile</strong>:</span>
+        <select id="profileQuickSelect" onchange="window.switchProfile(this.value)" aria-label="1-Click Profile Switcher">
+          <option value="farmer_ramesh">🌾 Ramesh Patil (Farmer, Nashik, Maharashtra)</option>
+          <option value="farmer_gurpreet">🚜 Gurpreet Singh (Farmer, Ludhiana, Punjab)</option>
+          <option value="buyer_itc">🏢 ITC Agri Business (Corporate Buyer, Mumbai)</option>
+          <option value="buyer_sahyadri">🤝 Sahyadri Farmers Producer Co. (FPO Aggregator)</option>
+        </select>
+        <button class="btn btn-sm btn-primary" onclick="window.openModal('accountCreationModal')">+ Register New Profile</button>
+      </div>
+    </section>
+
+    <!-- 3-Step Visual Rural Guide for Farmers -->
+    <section class="rural-guide-section">
+      <div class="section-headline-box">
+        <h3 data-i18n="guide_title">3-Step Visual Rural Guide for Farmers</h3>
+        <p data-i18n="guide_subtitle">Simple, transparent, and direct market linkage without middlemen commissions</p>
+      </div>
+      <div class="guide-cards-grid">
+        <div class="guide-step-card">
+          <span class="guide-step-number">01</span>
+          <div class="guide-icon-box">📊</div>
+          <h4 data-i18n="step1_title">1. Check Live Mandi Bhav</h4>
+          <p data-i18n="step1_desc">Browse 4,998+ national APMC prices in your local language or use voice search to find best modal rates.</p>
+          <div style="margin-top: auto; padding-top: 14px;">
+            <a href="#mandiBhav" class="btn btn-sm btn-outline">Explore Rates →</a>
+          </div>
+        </div>
+        <div class="guide-step-card">
+          <span class="guide-step-number">02</span>
+          <div class="guide-icon-box">📦</div>
+          <h4 data-i18n="step2_title">2. 1-Click Upload Produce</h4>
+          <p data-i18n="step2_desc">List your harvest quantity & quality grade. Institutional buyers like ITC & Reliance bid in real-time.</p>
+          <div style="margin-top: auto; padding-top: 14px;">
+            <a href="#farmerCockpitSection" class="btn btn-sm btn-outline">List Produce Lot →</a>
+          </div>
+        </div>
+        <div class="guide-step-card">
+          <span class="guide-step-number">03</span>
+          <div class="guide-icon-box">💳</div>
+          <h4 data-i18n="step3_title">3. Direct Bank Payment (DBT)</h4>
+          <p data-i18n="step3_desc">Accept the best bid, generate your tamper-evident gate pass, and receive 100% Escrow DBT in your account.</p>
+          <div style="margin-top: auto; padding-top: 14px;">
+            <a href="#incomingBidsDeskSection" class="btn btn-sm btn-outline">View Escrow Contract →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Farmer Cockpit & Marketplace Engine -->
+    <section id="farmerCockpitSection" class="farmer-cockpit-wrap">
+      <div class="cockpit-grid">
+        <!-- 1-Click Produce Upload Form -->
+        <div class="card-box">
+          <h3 data-i18n="upload_produce_title">1-Click Produce Upload Form</h3>
+          <form id="produceUploadForm" onsubmit="window.handleProduceUpload(event)">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label data-i18n="crop_name">Crop Name</label>
+                <input type="text" name="cropName" class="form-control" placeholder="e.g. Onion, Wheat, Tomato" required>
+              </div>
+              <div class="form-group">
+                <label data-i18n="crop_variety">Variety</label>
+                <input type="text" name="variety" class="form-control" placeholder="e.g. Nashik Red, Sharbati" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label data-i18n="quantity_qtl">Quantity (Quintals)</label>
+                <input type="number" name="quantityQtl" class="form-control" placeholder="e.g. 100" min="1" required>
+              </div>
+              <div class="form-group">
+                <label data-i18n="expected_price">Expected Price (₹/Qtl)</label>
+                <input type="number" name="expectedPrice" class="form-control" placeholder="e.g. 2350" min="1" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label data-i18n="harvest_date">Harvest Date</label>
+                <input type="date" name="harvestDate" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label data-i18n="quality_grade">Quality Grade</label>
+                <select name="qualityGrade" class="form-control">
+                  <option value="Grade A (Export Quality)">Grade A (Export Quality)</option>
+                  <option value="Organic Certified">Organic Certified</option>
+                  <option value="Grade B (Fair Average Quality)">Grade B (Fair Average Quality)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="photo_url">Photo URL (Optional)</label>
+              <input type="url" name="photoUrl" class="form-control" placeholder="https://example.com/harvest.jpg">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;" data-i18n="btn_upload_lot">
+              🚀 Publish Produce Lot
+            </button>
+          </form>
+        </div>
+
+        <!-- Active Lots Inventory Dashboard & Incoming Live Bids -->
+        <div class="card-box">
+          <h3 data-i18n="active_lots_title">Active Lots Inventory Dashboard</h3>
+          <div class="lots-list-grid" id="farmerLotsContainer">
+            <!-- Populated dynamically via marketplace.js -->
+          </div>
+
+          <!-- Incoming Live Institutional Bids & Negotiation Desk -->
+          <div class="bids-desk-wrap" id="incomingBidsDeskSection">
+            <h3 data-i18n="bids_negotiation_title">Incoming Live Institutional Bids & Negotiation Desk</h3>
+            <div id="incomingBidsDesk">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Corporate Wholesale Buyer Portal -->
+    <section id="buyerPortalSection" class="card-box" style="display: none; margin-bottom: 38px;">
+      <div class="mandi-header-flex">
+        <div>
+          <h3 data-i18n="buyer_portal_title">Corporate Wholesale Buyer Portal</h3>
+          <p class="text-muted">Procure verified farmer lots directly across Indian APMCs with digital escrow settlement</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="window.setRole('farmer')">Switch to Farmer View</button>
+      </div>
+
+      <!-- Multi-Parameter Filters for Buyers -->
+      <div class="mandi-controls-bar" style="margin-bottom: 24px;">
+        <select id="buyerFilterCommodity" class="filter-select" onchange="window.renderWholesaleCatalog()">
+          <option value="">All Commodities</option>
+          <option value="Onion">Onion</option>
+          <option value="Wheat">Wheat</option>
+          <option value="Tomato">Tomato</option>
+          <option value="Soybean">Soybean</option>
+          <option value="Cotton">Cotton</option>
+          <option value="Potato">Potato</option>
+        </select>
+        <select id="buyerFilterState" class="filter-select" onchange="window.renderWholesaleCatalog()">
+          <option value="">All States</option>
+          <option value="Maharashtra">Maharashtra</option>
+          <option value="Punjab">Punjab</option>
+          <option value="Madhya Pradesh">Madhya Pradesh</option>
+          <option value="Karnataka">Karnataka</option>
+        </select>
+        <select id="buyerFilterGrade" class="filter-select" onchange="window.renderWholesaleCatalog()">
+          <option value="" data-i18n="buyer_filter_grade">Minimum Grade</option>
+          <option value="Grade A">Grade A Only</option>
+          <option value="Organic">Organic Certified</option>
+        </select>
+        <input type="number" id="buyerFilterMaxPrice" class="filter-select" placeholder="Max Price ₹/Qtl" oninput="window.renderWholesaleCatalog()">
+      </div>
+
+      <!-- Wholesale Produce Catalog Grid -->
+      <div class="wholesale-grid" id="wholesaleCatalogContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- 6. Real-Time Inter-Mandi Road Transport P&L Terminal -->
+    <section id="roadArbitrage" class="analytics-section">
+      <div class="section-headline-box" style="text-align: left; margin-bottom: 18px;">
+        <h3 data-i18n="pnl_terminal_title">Real-Time Inter-Mandi Road Transport P&L Terminal</h3>
+        <p data-i18n="pnl_terminal_sub">Prevent distress sales: Compute road arbitrage between your local APMC and distant high-paying mandis</p>
+      </div>
+
+      <!-- 1-Click High-Arbitrage Corridor Presets -->
+      <div class="quick-corridor-chips">
+        <span style="font-size: 0.82rem; font-weight: 800; align-self: center; color: var(--brand-primary);">⚡ High-Arbitrage Routes:</span>
+        <button type="button" class="corridor-chip" onclick="window.setArbitragePreset('Lasalgaon APMC (Nashik)', 'Vashi APMC (Navi Mumbai)', 'Onion', 215, 40)">🧅 Nashik → Mumbai (215 km)</button>
+        <button type="button" class="corridor-chip" onclick="window.setArbitragePreset('Khanna Mandi (Punjab)', 'Azadpur APMC (Delhi)', 'Wheat', 310, 150)">🌾 Ludhiana → Delhi (310 km)</button>
+        <button type="button" class="corridor-chip" onclick="window.setArbitragePreset('Kolar APMC (Karnataka)', 'Yeshwanthpur APMC (Bengaluru)', 'Tomato', 75, 40)">🍅 Kolar → Bengaluru (75 km)</button>
+        <button type="button" class="corridor-chip" onclick="window.setArbitragePreset('Ujjain Chimanganj (MP)', 'Jamalpur APMC (Ahmedabad)', 'Soybean', 385, 40)">🌱 Ujjain → Ahmedabad (385 km)</button>
+      </div>
+
+      <div class="pnl-grid">
+        <!-- Inputs Column -->
+        <div class="card-box" style="background: var(--bg-elevated); border: none; box-shadow: none;">
+          <form id="arbitrageForm" oninput="window.calculateArbitrage()">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label data-i18n="origin_mandi">Origin Mandi (Local APMC)</label>
+                <input type="text" id="arbOriginMandi" class="form-control" value="Lasalgaon APMC (Nashik)">
+              </div>
+              <div class="form-group">
+                <label data-i18n="dest_mandi">Destination Mandi (Target APMC)</label>
+                <input type="text" id="arbDestMandi" class="form-control" value="Vashi APMC (Navi Mumbai)">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label data-i18n="col_commodity">Commodity</label>
+                <select id="arbCommodity" class="form-control" onchange="window.calculateArbitrage()">
+                  <option value="Onion">Onion (₹1,850 local vs ₹2,420 target)</option>
+                  <option value="Tomato">Tomato (₹1,350 local vs ₹2,150 target)</option>
+                  <option value="Wheat">Wheat (₹2,300 local vs ₹2,650 target)</option>
+                  <option value="Soybean">Soybean (₹4,600 local vs ₹5,120 target)</option>
+                  <option value="Cotton">Cotton (₹6,900 local vs ₹7,580 target)</option>
+                  <option value="Potato">Potato (₹1,200 local vs ₹1,680 target)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="quantity_qtl">Quantity (Quintals)</label>
+                <input type="number" id="arbQuantity" class="form-control" value="40" min="1">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label data-i18n="vehicle_type">Vehicle Carrier</label>
+                <select id="arbVehicleType" class="form-control" onchange="window.calculateArbitrage()">
+                  <option value="pickup">Pickup Van (15 Qtl max, 11.5 km/L)</option>
+                  <option value="mini_truck" selected>Mini Truck (40 Qtl max, 7.2 km/L)</option>
+                  <option value="heavy_truck">Heavy Multi-Axle Truck (150 Qtl max, 3.8 km/L)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="distance_km">Distance (Kilometers)</label>
+                <input type="number" id="arbDistanceKm" class="form-control" value="215" min="1">
+              </div>
+            </div>
+
+            <!-- Distance Slider Control -->
+            <div class="form-group" style="margin-top: 6px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px;">
+                <span>Transit Distance Range</span>
+                <span>Drag to simulate route</span>
+              </div>
+              <input type="range" id="arbDistanceSlider" min="10" max="800" value="215" style="width: 100%; accent-color: var(--brand-primary); cursor: pointer;">
+            </div>
+
+            <div class="form-row-2" style="margin-top: 10px;">
+              <div class="form-group">
+                <label>Local Modal Rate (₹/Qtl)</label>
+                <input type="number" id="arbOriginCustomPrice" class="form-control" placeholder="Auto based on APMC">
+              </div>
+              <div class="form-group">
+                <label>Target Modal Rate (₹/Qtl)</label>
+                <input type="number" id="arbDestCustomPrice" class="form-control" placeholder="Auto based on Target">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Dynamic Live Calculations & Deductions Column -->
+        <div class="pnl-output-box">
+          <div>
+            <h4 style="font-weight: 900; color: var(--brand-primary); margin-bottom: 12px; font-size: 1.15rem;">Road Arbitrage Mathematical Model</h4>
+            <div class="cost-breakdown-list">
+              <div class="cost-item">
+                <span data-i18n="calc_gross_diff">Gross Price Differential</span>
+                <strong id="outGrossDiff" style="color: var(--brand-primary); font-family: 'JetBrains Mono', monospace;">₹22,800</strong>
+              </div>
+              <div class="cost-item">
+                <span data-i18n="calc_fuel_cost">Diesel & Fuel Costs (₹92.5/L)</span>
+                <span id="outFuelCost" style="color: var(--brand-saffron-dark); font-family: 'JetBrains Mono', monospace;">- ₹2,762 (29.9 L)</span>
+              </div>
+              <div class="cost-item">
+                <span data-i18n="calc_tolls_driver">Tolls & Driver Allowances</span>
+                <span id="outTollsDriver" style="color: #7c3aed; font-family: 'JetBrains Mono', monospace;">- ₹1,613</span>
+              </div>
+              <div class="cost-item">
+                <span data-i18n="calc_transit_loss">Transit Perishability Loss</span>
+                <span id="outTransitLoss" style="color: var(--accent-red); font-family: 'JetBrains Mono', monospace;">- ₹465 (0.5%)</span>
+              </div>
+              <div class="cost-item">
+                <span data-i18n="calc_apmc_cess">APMC Cess / Market Fee (1.5%)</span>
+                <span id="outApmcCess" style="color: #0284c7; font-family: 'JetBrains Mono', monospace;">- ₹1,452</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pnl-net-result">
+            <div style="font-size: 0.84rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800;" data-i18n="calc_net_profit">Net Road Profit / Loss</div>
+            <div id="outNetProfit" class="text-profit-huge">₹16,508</div>
+            <div style="font-size: 1rem; font-weight: 800; color: var(--text-muted); margin-top: 4px;" id="outNetPerQtl">+₹413 / Qtl</div>
+            <div id="arbRecommendationBadge" class="recommendation-badge badge-profitable">
+              🟢 PROFITABLE: ROUTE TRUCK (+₹413/Qtl)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 14-Day AI Predictive Price Forecast & Advisory -->
+    <section id="aiForecast" class="forecast-section">
+      <div class="mandi-header-flex">
+        <div>
+          <h3 data-i18n="forecast_title">14-Day AI Predictive Price Forecast & Rural Advisory</h3>
+          <p class="text-muted" data-i18n="forecast_sub">Machine Learning projections overlaid with Statutory Government MSP Benchmarks</p>
+        </div>
+        <div>
+          <select id="forecastCropSelect" class="filter-select" style="min-width: 150px; display: none;">
+            <option value="Onion">Onion</option>
+            <option value="Wheat">Wheat</option>
+            <option value="Tomato">Tomato</option>
+            <option value="Soybean">Soybean</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Potato">Potato</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Crop Buttons -->
+      <div class="crop-chips-row">
+        <button type="button" class="crop-btn-chip chip-active" data-crop="Onion" onclick="window.selectForecastCrop('Onion')">🧅 Onion (Nashik)</button>
+        <button type="button" class="crop-btn-chip" data-crop="Wheat" onclick="window.selectForecastCrop('Wheat')">🌾 Wheat (Khanna)</button>
+        <button type="button" class="crop-btn-chip" data-crop="Tomato" data-crop="Tomato" onclick="window.selectForecastCrop('Tomato')">🍅 Tomato (Kolar)</button>
+        <button type="button" class="crop-btn-chip" data-crop="Soybean" onclick="window.selectForecastCrop('Soybean')">🌱 Soybean (Ujjain)</button>
+        <button type="button" class="crop-btn-chip" data-crop="Cotton" onclick="window.selectForecastCrop('Cotton')">☁️ Cotton (Warangal)</button>
+        <button type="button" class="crop-btn-chip" data-crop="Potato" onclick="window.selectForecastCrop('Potato')">🥔 Potato (Agra)</button>
+      </div>
+
+      <!-- Interactive Canvas Chart Component -->
+      <div class="chart-wrapper">
+        <canvas id="forecastCanvas" width="900" height="380"></canvas>
+      </div>
+
+      <!-- Forecast Momentum & Rural Advisory Callout -->
+      <div class="forecast-advisory-box">
+        <div>
+          <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Actionable Rural Recommendation</div>
+          <div id="forecastActionBadge" class="signal-badge signal-hold">HOLD PRODUCE (Expected +14% in 10 Days)</div>
+        </div>
+        <div style="flex: 1; min-width: 250px;">
+          <p id="forecastAdviceText" style="font-size: 0.92rem; color: var(--text-main); line-height: 1.45; font-weight: 600;">
+            Export duty relaxation and lower monsoon arrivals in Nashik belt indicate tight supply. Withholding for 10-14 days maximizes realization.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-muted);" data-i18n="msp_benchmark">Statutory MSP Benchmark</div>
+          <strong id="forecastMspValue" style="color: #ef4444; font-size: 1.25rem; font-family: 'JetBrains Mono', monospace;">₹1,850 / Qtl</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Official Government Mandi Price Engine (data.gov.in) -->
+    <section id="mandiBhav" class="mandi-bhav-section">
+      <div class="mandi-header-flex">
+        <div>
+          <h3 data-i18n="mandi_section_title">Official National Mandi Bhav Engine (data.gov.in)</h3>
+          <p class="text-muted" data-i18n="mandi_section_sub">Live arrival records sourced from Ministry of Agriculture API (9ef84268-d588-465a-a308-a864a43d0070)</p>
+        </div>
+        <div>
+          <!-- Official 103-Page PDF Report Download Link -->
+          <a href="Official_Mandi_Data_Gov_All_States_Report.pdf" download="Official_Mandi_Data_Gov_All_States_Report.pdf" class="btn btn-outline btn-sm" id="downloadPdfBtn" title="Download Official 103-Page National Report">
+            📄 <span data-i18n="download_pdf_btn">Download 103-Page Official PDF Report</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Filter Chips for Key Commodities -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('')">All Crops</button>
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('Onion')">🧅 Onion</button>
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('Wheat')">🌾 Wheat</button>
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('Tomato')">🍅 Tomato</button>
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('Soybean')">🌱 Soybean</button>
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('Cotton')">☁️ Cotton</button>
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('Potato')">🥔 Potato</button>
+        <button class="btn btn-sm btn-outline" style="padding: 4px 10px; font-size: 0.78rem;" onclick="window.setTableCommodityFilter('Green Chilli')">🌶️ Green Chilli</button>
+      </div>
+
+      <!-- Search & Multi-Filters -->
+      <div class="mandi-controls-bar">
+        <div class="search-input-group">
+          <input type="text" id="mandiSearchInput" data-i18n-placeholder="search_placeholder" placeholder="Search by Mandi, Commodity, District, State..." aria-label="Search Mandi Records">
+          <!-- Voice Search Simulation Button -->
+          <button class="mic-voice-btn" id="btnVoiceSearch" data-i18n-title="voice_search_tooltip" title="Click to Speak (Voice Search Simulation)" aria-label="Voice Search">
+            🎙️
+          </button>
+        </div>
+        <select id="mandiStateFilter" class="filter-select" aria-label="Filter by State">
+          <option value="" data-i18n="filter_state">All States</option>
+        </select>
+        <select id="mandiCommodityFilter" class="filter-select" aria-label="Filter by Commodity">
+          <option value="" data-i18n="filter_commodity">All Commodities</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('mandiSearchInput').value=''; document.getElementById('mandiStateFilter').value=''; document.getElementById('mandiCommodityFilter').value=''; window.refreshMandiTable();">
+          Reset Filters
+        </button>
+      </div>
+
+      <!-- Interactive Live Mandi Bhav Table -->
+      <div class="table-responsive">
+        <table class="data-table" aria-label="Live Mandi Bhav Table">
+          <thead>
+            <tr>
+              <th data-i18n="col_state">State</th>
+              <th data-i18n="col_district">District</th>
+              <th data-i18n="col_mandi">APMC Market</th>
+              <th data-i18n="col_commodity">Commodity</th>
+              <th data-i18n="col_variety">Variety</th>
+              <th data-i18n="col_min_price">Min Price (₹/Qtl)</th>
+              <th data-i18n="col_max_price">Max Price (₹/Qtl)</th>
+              <th data-i18n="col_modal_price">Modal Price (₹/Qtl)</th>
+              <th data-i18n="col_trend">Price Trend</th>
+              <th data-i18n="col_action">Audio Readout</th>
+            </tr>
+          </thead>
+          <tbody id="mandiTableBody">
+            <!-- Rendered dynamically by mandiData.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Pagination Bar -->
+      <div class="table-pagination-row" id="mandiPaginationInfo">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- 9. 2-Way Trust & Mutual Rating Protocol -->
+    <section id="trustRatings" class="reputation-section">
+      <div class="mandi-header-flex">
+        <div>
+          <h3 data-i18n="ratings_title">2-Way Trust & Mutual Rating Protocol</h3>
+          <p class="text-muted" data-i18n="ratings_sub">Fair trade verification eliminating fraud, quality disputes, and payment delays</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-sm btn-primary" onclick="window.openRateFarmerModal()" data-i18n="rate_farmer_btn">Rate Farmer Lot</button>
+          <button class="btn btn-sm btn-outline" onclick="window.openRateBuyerModal()" data-i18n="rate_buyer_btn">Rate Buyer Settlement</button>
+        </div>
+      </div>
+
+      <div class="rep-grid" id="reputationReviewsContainer">
+        <!-- Populated dynamically via ratingSystem.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODALS & DIALOGS -->
+  <!-- ========================================== -->
+
+  <!-- Tamper-Evident e-NAM Priority Gate Pass Modal -->
+  <div class="modal-overlay" id="gatePassModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="gpModalTitle">🎟️ Tamper-Evident e-NAM Priority Gate Pass</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('gatePassModal')">&times;</button>
+      </div>
+      <div class="gate-pass-print-area printable-area" id="gatePassPrintContainer">
+        <div class="gp-watermark">e-NAM VERIFIED</div>
+        <div class="gp-header-bar">
+          <div style="font-size: 0.78rem; font-weight: 800; color: #4b5563;">MINISTRY OF AGRICULTURE & FARMERS WELFARE | GOVT OF INDIA</div>
+          <div class="gp-title">NATIONAL AGRICULTURAL MARKET (e-NAM) PRIORITY GATE PASS</div>
+          <div style="font-size: 0.76rem; color: #046a38; font-weight: 700;">Fast-Track Weighbridge Clearance Pass | Serial: <span id="gpPassSerial">eNAM-GP-981245</span></div>
+        </div>
+
+        <div class="gp-body-grid">
+          <table class="gp-meta-table">
+            <tr>
+              <td class="lbl">Lot Identifier:</td>
+              <td><strong id="gpLotId">LOT-MH-8921</strong></td>
+            </tr>
+            <tr>
+              <td class="lbl">Farmer / Producer:</td>
+              <td><strong id="gpFarmerName">Ramesh Patil</strong></td>
+            </tr>
+            <tr>
+              <td class="lbl">Commodity & Variety:</td>
+              <td id="gpCommodity">Onion (Nashik Red)</td>
+            </tr>
+            <tr>
+              <td class="lbl">Quantity Listed:</td>
+              <td><strong id="gpQuantity">120 Quintals</strong></td>
+            </tr>
+            <tr>
+              <td class="lbl">Designated Market Yard:</td>
+              <td id="gpMandi">Lasalgaon APMC</td>
+            </tr>
+            <tr>
+              <td class="lbl">Allocated Vehicle No:</td>
+              <td><code id="gpVehicleNo" style="background:#e5e7eb; padding:2px 8px; border-radius:4px; font-weight:700;">MH-15-EG-4821</code></td>
+            </tr>
+            <tr>
+              <td class="lbl">Gate Entry Window:</td>
+              <td id="gpGateWindow">09:00 AM - 05:00 PM (Priority Lane)</td>
+            </tr>
+            <tr>
+              <td class="lbl">Moisture Certification:</td>
+              <td><strong id="gpMoisture" style="color: #046a38;">11.2% (Permissible Standard under BIS IS:4333)</strong></td>
+            </tr>
+          </table>
+
+          <!-- Tamper-Evident QR Code -->
+          <div class="gp-qr-container" id="gpQrCode">
+            <!-- Rendered by SVG generator -->
+          </div>
+        </div>
+
+        <div style="margin-top: 14px; font-size: 0.74rem; color: #6b7280; border-top: 1px dashed #d1d5db; padding-top: 8px;">
+          * Security Notice: This pass includes an electronic tamper-evident cryptographic hash. Scanning at the APMC gate triggers automated weighbridge registration and DBT escrow authorization.
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print Gate Pass</button>
+        <button class="btn btn-primary btn-sm" onclick="window.closeModal('gatePassModal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Escrow Purchase Order Modal -->
+  <div class="modal-overlay" id="escrowContractModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>📄 Digital Escrow Purchase Order & Contract</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('escrowContractModal')">&times;</button>
+      </div>
+      <div class="escrow-doc-area printable-area">
+        <div class="escrow-header">
+          <div>
+            <strong style="color: #2563eb; font-size: 1.15rem;">e-NAM ESCROW PURCHASE ORDER</strong>
+            <div style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Contract ID: <span id="ecContractNo">eNAM-ESC-884102</span></div>
+          </div>
+          <div style="text-align: right; font-size: 0.82rem;">
+            <div>Execution Date: <strong id="ecDate">05/09/2026</strong></div>
+            <span class="badge badge-active" style="background:#eff6ff; color:#2563eb; border: 1px solid #bfdbfe;">ESCROW PRE-FUNDED</span>
+          </div>
+        </div>
+
+        <table class="gp-meta-table">
+          <tr>
+            <td class="lbl">Farmer / Seller:</td>
+            <td><strong id="ecFarmerName">Ramesh Patil</strong> (Nashik, Maharashtra)</td>
+          </tr>
+          <tr>
+            <td class="lbl">Institutional Buyer:</td>
+            <td><strong id="ecBuyerName">ITC Agri Business</strong> (Mumbai)</td>
+          </tr>
+          <tr>
+            <td class="lbl">Produce Lot Reference:</td>
+            <td id="ecLotId">LOT-MH-8921</td>
+          </tr>
+          <tr>
+            <td class="lbl">Commodity & Variety:</td>
+            <td id="ecCommodity">Onion (Nashik Red Garva)</td>
+          </tr>
+          <tr>
+            <td class="lbl">Contracted Quantity:</td>
+            <td id="ecQuantity">120 Quintals</td>
+          </tr>
+          <tr>
+            <td class="lbl">Settlement Rate:</td>
+            <td><strong id="ecRate" style="color: #046a38;">₹2,280 / Quintal</strong></td>
+          </tr>
+          <tr>
+            <td class="lbl">Gross Escrow Value:</td>
+            <td><strong id="ecTotalValue" style="font-size: 1.15rem; color: #2563eb;">₹2,73,600</strong></td>
+          </tr>
+          <tr>
+            <td class="lbl">APMC Mandi Cess (1.5%):</td>
+            <td id="ecCess">₹4,104 (Statutory allocation)</td>
+          </tr>
+          <tr>
+            <td class="lbl">Net Farmer DBT Payout:</td>
+            <td><strong id="ecNetFarmer" style="color: #046a38; font-size: 1.15rem;">₹2,73,600</strong></td>
+          </tr>
+          <tr>
+            <td class="lbl">Logistics Terms:</td>
+            <td id="ecDeliveryTerms">Buyer Arranged Fleet (Direct Farmgate Dispatch)</td>
+          </tr>
+          <tr>
+            <td class="lbl">Escrow Status:</td>
+            <td id="ecEscrowStatus">Funds Locked in RBI-Authorized Escrow Bank Account</td>
+          </tr>
+        </table>
+
+        <div class="escrow-clauses">
+          <strong>Legally Binding Escrow Clauses under e-NAM Guidelines:</strong>
+          <ol style="margin-left: 18px; margin-top: 6px;">
+            <li>The total purchase consideration has been 100% pre-funded into escrow.</li>
+            <li>Direct Bank Transfer (DBT) to the farmer's linked Aadhaar/Bank account is triggered within 2 hours of digital weighbridge receipt.</li>
+            <li>Quality disputes, if any, shall be arbitrated by the APMC Assayer within 24 hours.</li>
+          </ol>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print Contract</button>
+        <button class="btn btn-primary btn-sm" onclick="window.closeModal('escrowContractModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Direct Bidding Modal -->
+  <div class="modal-overlay" id="directBiddingModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 data-i18n="btn_place_bid">Place Direct Bid on Farmer Lot</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('directBiddingModal')">&times;</button>
+      </div>
+      <form onsubmit="window.submitDirectBid(event)">
+        <input type="hidden" id="bidModalLotId">
+        <div class="form-group">
+          <label>Target Produce Lot</label>
+          <div id="bidModalCropDisplay" style="font-weight: 800; color: var(--brand-primary); font-size: 1.1rem;"></div>
+          <small class="text-muted">Farmer Expected Price: <span id="bidModalBasePrice">₹2,200 / Qtl</span></small>
+        </div>
+        <div class="form-group">
+          <label>Your Institutional Bid Rate (₹ / Quintal)</label>
+          <input type="number" id="bidCustomPriceInput" class="form-control" required min="100">
+        </div>
+        <div class="form-group">
+          <label>Logistics & Transport Preference</label>
+          <select id="bidLogisticsPref" class="form-control">
+            <option value="Buyer Arranged Farmgate Logistics">Buyer Arranged Farmgate Logistics (Ex-Farm)</option>
+            <option value="Farmer Delivered to APMC Yard">Farmer Delivered to APMC Principal Yard</option>
+            <option value="Rail Siding Silo Delivery">Rail Siding Silo Delivery</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Digital Payment & Escrow Terms</label>
+          <input type="text" id="bidEscrowTerms" class="form-control" value="100% Escrow Secured (Immediate DBT on Weighbridge Clearance)">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="window.closeModal('directBiddingModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Submit Firm Bid</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Counter-Offer Negotiation Modal -->
+  <div class="modal-overlay" id="counterOfferModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 data-i18n="btn_counter_offer">Propose Counter-Offer to Buyer</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('counterOfferModal')">&times;</button>
+      </div>
+      <form onsubmit="window.submitCounterOffer(event)">
+        <input type="hidden" id="counterLotId">
+        <input type="hidden" id="counterBidId">
+        <div class="form-group">
+          <label>Current Buyer Offer</label>
+          <div id="counterCurrentBidDisplay" style="font-weight: 800; font-size: 1.15rem; color: var(--text-muted);"></div>
+        </div>
+        <div class="form-group">
+          <label>Your Revised Counter-Price (₹ / Quintal)</label>
+          <input type="number" id="counterProposedPrice" class="form-control" required min="100">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="window.closeModal('counterOfferModal')">Cancel</button>
+          <button type="submit" class="btn btn-warning btn-sm">Send Counter-Offer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Account Creation & Profile Switcher Modal -->
+  <div class="modal-overlay" id="accountCreationModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>⚙️ Multi-Account Manager & Registration</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('accountCreationModal')">&times;</button>
+      </div>
+      <form id="accountCreationForm" onsubmit="window.registerNewAccount(event)">
+        <div class="form-group">
+          <label>Select Pre-Configured Test Profile (1-Click Switch)</label>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+            <button type="button" class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start;" onclick="window.switchProfile('farmer_ramesh'); window.closeModal('accountCreationModal');">
+              🌾 <strong>Ramesh Patil</strong> (Farmer, Nashik, Maharashtra - Grapes/Onions)
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start;" onclick="window.switchProfile('farmer_gurpreet'); window.closeModal('accountCreationModal');">
+              🚜 <strong>Gurpreet Singh</strong> (Farmer, Ludhiana, Punjab - Wheat/Paddy)
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start;" onclick="window.switchProfile('buyer_itc'); window.closeModal('accountCreationModal');">
+              🏢 <strong>ITC Agri Business</strong> (Corporate Buyer, Mumbai)
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" style="text-align: left; justify-content: flex-start;" onclick="window.switchProfile('buyer_sahyadri'); window.closeModal('accountCreationModal');">
+              🤝 <strong>Sahyadri Farmers Producer Co.</strong> (FPO Aggregator, Nashik)
+            </button>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); margin: 20px 0; padding-top: 16px;">
+          <h4 style="color: var(--brand-primary); margin-bottom: 12px; font-weight: 900;">Or Register a New User Account</h4>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Full Name / Business Name</label>
+              <input type="text" name="accountName" class="form-control" placeholder="e.g. Baldev Kumar" required>
+            </div>
+            <div class="form-group">
+              <label>Role</label>
+              <select name="accountRole" class="form-control">
+                <option value="farmer">Farmer / Grower</option>
+                <option value="buyer">Institutional Buyer / FPO</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Mobile Number</label>
+              <input type="tel" name="accountMobile" class="form-control" placeholder="98XXXXXXXX" required>
+            </div>
+            <div class="form-group">
+              <label>Aadhaar / GSTIN / CIN</label>
+              <input type="text" name="accountIdNumber" class="form-control" placeholder="XXXX-XXXX-XXXX" required>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" name="accountState" class="form-control" placeholder="e.g. Haryana" required>
+            </div>
+            <div class="form-group">
+              <label>District</label>
+              <input type="text" name="accountDistrict" class="form-control" placeholder="e.g. Karnal" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm" style="width: 100%; margin-top: 12px;">
+            Complete Registration & Activate
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Voice Search Simulation Modal -->
+  <div class="modal-overlay" id="voiceSearchModal">
+    <div class="modal-card" style="text-align: center;">
+      <div class="modal-header">
+        <h3 id="voiceModalHeading">🎙️ Voice Search Mandi Queries (बोलकर खोजें)</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('voiceSearchModal')">&times;</button>
+      </div>
+      <div class="voice-mic-animation">🎙️</div>
+      <p style="font-size: 1rem; font-weight: 700; color: var(--text-main);">
+        Listening... Speak your commodity, mandi, or district name
+      </p>
+      <small style="color: var(--text-muted); font-weight: 600;">Supports vernacular voice queries for rural accessibility</small>
+
+      <div style="margin-top: 22px;">
+        <div style="font-size: 0.82rem; font-weight: 800; color: var(--brand-primary); margin-bottom: 10px;">Or click quick voice simulation query:</div>
+        <div class="voice-sample-chips">
+          <button class="voice-chip" onclick="window.executeVoiceQuery('Onion Lasalgaon')">🧅 "Onion Lasalgaon"</button>
+          <button class="voice-chip" onclick="window.executeVoiceQuery('कांदा भाव')">🌾 "कांदा भाव"</button>
+          <button class="voice-chip" onclick="window.executeVoiceQuery('Wheat Punjab')">🌾 "Wheat Punjab"</button>
+          <button class="voice-chip" onclick="window.executeVoiceQuery('Tomato Kolar')">🍅 "Tomato Kolar"</button>
+          <button class="voice-chip" onclick="window.executeVoiceQuery('Soybean Indore')">🌱 "Soybean Indore"</button>
+          <button class="voice-chip" onclick="window.executeVoiceQuery('Cotton Warangal')">☁️ "Cotton Warangal"</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rate Farmer Modal -->
+  <div class="modal-overlay" id="rateFarmerModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 data-i18n="rate_farmer_btn">Buyer Rates Farmer Lot</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('rateFarmerModal')">&times;</button>
+      </div>
+      <form onsubmit="window.submitFarmerRating(event)">
+        <div class="form-group">
+          <label>Select Farmer</label>
+          <select id="rateFarmerSelect" class="form-control">
+            <option value="farmer_ramesh">Ramesh Patil (Nashik, Maharashtra)</option>
+            <option value="farmer_gurpreet">Gurpreet Singh (Ludhiana, Punjab)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>1. Produce Quality & Grading Accuracy (1–5 Stars)</label>
+          <select id="rateFarmerQuality" class="form-control">
+            <option value="5">★★★★★ (5 Stars - Exact Grade A Export Match)</option>
+            <option value="4">★★★★☆ (4 Stars - Minor Variance)</option>
+            <option value="3">★★★☆☆ (3 Stars - Average Quality)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>2. Moisture & Sorting Standards (1–5 Stars)</label>
+          <select id="rateFarmerMoisture" class="form-control">
+            <option value="5">★★★★★ (5 Stars - Certified Dry, Zero Dockage)</option>
+            <option value="4">★★★★☆ (4 Stars - Within Tolerance)</option>
+            <option value="3">★★★☆☆ (3 Stars - Slight Excess Moisture)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>3. Packaging & On-Time Loading (1–5 Stars)</label>
+          <select id="rateFarmerPackaging" class="form-control">
+            <option value="5">★★★★★ (5 Stars - Jute Bags, Punctual Dispatch)</option>
+            <option value="4">★★★★☆ (4 Stars - Satisfactory Packaging)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Inspection Feedback & Comments</label>
+          <textarea id="rateFarmerComment" class="form-control" rows="2" placeholder="Describe produce lot compliance..."></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="window.closeModal('rateFarmerModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Submit Rating</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Rate Buyer Modal -->
+  <div class="modal-overlay" id="rateBuyerModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 data-i18n="rate_buyer_btn">Farmer Rates Institutional Buyer</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('rateBuyerModal')">&times;</button>
+      </div>
+      <form onsubmit="window.submitBuyerRating(event)">
+        <div class="form-group">
+          <label>Select Institutional Buyer</label>
+          <select id="rateBuyerSelect" class="form-control">
+            <option value="buyer_itc">ITC Agri Business</option>
+            <option value="buyer_sahyadri">Sahyadri Farmers Producer Co.</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>1. Instant DBT Payment Settlement (1–5 Stars)</label>
+          <select id="rateBuyerDbt" class="form-control">
+            <option value="5">★★★★★ (5 Stars - Settled within 2 hours)</option>
+            <option value="4">★★★★☆ (4 Stars - Settled within 24 hours)</option>
+            <option value="3">★★★☆☆ (3 Stars - Delayed settlement)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>2. Fair Weighment Practices (1–5 Stars)</label>
+          <select id="rateBuyerWeighment" class="form-control">
+            <option value="5">★★★★★ (5 Stars - Certified Electronic Weighbridge, 0 cut)</option>
+            <option value="4">★★★★☆ (4 Stars - Minor deduction)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>3. Contract Honor & Professional Conduct (1–5 Stars)</label>
+          <select id="rateBuyerConduct" class="form-control">
+            <option value="5">★★★★★ (5 Stars - Full Contract Honored)</option>
+            <option value="4">★★★★☆ (4 Stars - Professional)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Farmer Experience Feedback</label>
+          <textarea id="rateBuyerComment" class="form-control" rows="2" placeholder="Describe payment speed and weighbridge fairness..."></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="window.closeModal('rateBuyerModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Pure Vanilla Scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/mandiData.js"></script>
+  <script src="js/marketplace.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/ratingSystem.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
